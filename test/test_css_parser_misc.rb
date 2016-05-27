@@ -49,6 +49,15 @@ class CssParserTests < Minitest::Test
     end
   end
 
+  def test_should_handle_uppercase_property
+    css = <<-CSS
+      p { Margin-left: 10px; }
+    CSS
+
+    @cp.add_block!(css)
+    assert_equal 'Margin-left: 10px;', @cp.find_by_selector('p').join(' ')
+  end
+
   def test_parsing_blocks
     # dervived from http://www.w3.org/TR/CSS21/syndata.html#rule-sets
     css = <<-CSS
@@ -58,7 +67,7 @@ class CssParserTests < Minitest::Test
 
       red;
 
-      }div:hover{coloR:red;
+      }div:hover{color:red;
          }div:first-letter{color:red;/*color:blue;}"commented out"*/}
 
       p[example="public class foo\

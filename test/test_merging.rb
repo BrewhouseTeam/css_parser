@@ -60,13 +60,6 @@ class MergingTests < Minitest::Test
     assert_equal 'red;', merged['color']
   end
 
-  def test_properties_should_be_case_insensitive
-    rs1 = RuleSet.new(nil, ' CoLor   : red  ;', 20)
-    rs2 = RuleSet.new(nil, 'color: blue;', 10)
-    merged = CssParser.merge(rs1, rs2)
-    assert_equal 'red;', merged['color']
-  end
-
   def test_merging_backgrounds
     rs1 = RuleSet.new(nil, 'background-color: black;')
     rs2 = RuleSet.new(nil, 'background-image: none;')
