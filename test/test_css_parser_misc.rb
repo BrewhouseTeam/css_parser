@@ -49,18 +49,26 @@ class CssParserTests < Test::Unit::TestCase
     end
   end
 
+  def test_should_handle_uppercase_property
+    css = <<-CSS
+      p { Margin-left: 10px; }
+    CSS
+
+    @cp.add_block!(css)
+    assert_equal 'Margin-left: 10px;', @cp.find_by_selector('p').join(' ')
+  end
+
   def test_parsing_blocks
     # dervived from http://www.w3.org/TR/CSS21/syndata.html#rule-sets
     css = <<-CSS
       div[name='test'] {
-      
+
       color:
-      
+
       red;
-      
-      }div:hover{coloR:red;
+      }div:hover{color:red;
          }div:first-letter{color:red;/*color:blue;}"commented out"*/}
-      
+
       p[example="public class foo\
       {\
           private string x;\
@@ -71,7 +79,7 @@ class CssParserTests < Test::Unit::TestCase
           }\
       \
       }"] { color: red }
-      
+
       p { color:red}
     CSS
 
@@ -152,7 +160,7 @@ class CssParserTests < Test::Unit::TestCase
   end
 
   def test_ruleset_with_braces
-=begin  
+=begin
     parser = Parser.new
     parser.add_block!("div { background-color: black !important; }")
     parser.add_block!("div { background-color: red; }")

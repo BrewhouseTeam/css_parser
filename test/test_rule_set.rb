@@ -25,8 +25,13 @@ class RuleSetTests < Test::Unit::TestCase
   end
 
   def test_getting_property_value_ignoring_case
-    rs = RuleSet.new('#content p, a', 'color: #fff;')
+    rs = RuleSet.new('#content p, a', 'ColoR: #fff;')
     assert_equal('#fff;', rs['  ColoR '])
+  end
+
+  def test_getting_uppercase_property
+    rs = RuleSet.new('#content p', 'Margin-left: 10px;')
+    assert_equal('10px;', rs['Margin-left'])
   end
 
   def test_each_selector
@@ -47,7 +52,7 @@ class RuleSetTests < Test::Unit::TestCase
   def test_each_declaration
     expected = Set.new([
       {:property => 'margin', :value => '1px -0.25em', :is_important => false},
-      {:property => 'background', :value => 'white none no-repeat', :is_important => true},
+      {:property => 'Background', :value => 'white none no-repeat', :is_important => true},
       {:property => 'color', :value => '#fff', :is_important => false}
     ])
 
